@@ -1,0 +1,142 @@
+var Page = require('astrolabe').Page;
+
+module.exports = Page.create({
+
+  takeExam: { value: function(ptor, domain, courseId) {
+    /*
+     need to add id to course title
+    */
+    // finds the course on the home study page
+    ptor.findElement(protractor.By.xpath('/html/body/div/div[2]/div/div/div[2]/div/article/section/table[3]/tbody/tr/td[2]/a')).click();
+    ptor.findElement(protractor.By.id('beginTest')).click();
+    ptor.waitForAngular();
+    ptor.findElement(protractor.By.id('q01_T')).click();
+    ptor.findElement(protractor.By.id('q02_C')).click();
+    /*
+     extra waits and sleep seem to be needed for Chrome, otherwise, the last 3 answers aren't selected
+    */
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q03_D')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q04_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q05_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('submitAnswers')).click();
+    expect(ptor.findElement(protractor.By.id('congrats')).getText()).toContain("Congratulations! You've passed with a score of 100%");
+    ptor.findElement(protractor.By.id('saveScore')).click();
+  }},
+
+  takeExamLoggedIn: { value: function(ptor, domain, courseId) {
+    // finds the course on the home study page
+    ptor.findElement(protractor.By.xpath('/html/body/div/div[2]/div/div/div[2]/div/article/section/table[3]/tbody/tr/td[2]/a')).click();
+    ptor.findElement(protractor.By.id('beginTest')).click();
+    ptor.waitForAngular();
+    ptor.findElement(protractor.By.id('q01_D')).click();
+    ptor.findElement(protractor.By.id('q02_C')).click();
+    /*
+     extra waits and sleep seem to be needed for Chrome, otherwise, the last 3 answers aren't selected
+    */
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q03_D')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q04_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q05_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('submitAnswers')).click();
+    expect(ptor.findElement(protractor.By.id('congrats')).getText()).toContain("Congratulations! You've passed with a score of 100%");
+    ptor.findElement(protractor.By.id('checkoutButton')).click();
+
+  }},
+
+  takeExamLoggedInChrome: { value: function(ptor, domain, courseId) {
+    // finds the course on the home study page
+    ptor.findElement(protractor.By.xpath('/html/body/div/div[2]/div/div/div[2]/div/article/section/table[3]/tbody/tr/td[2]/a')).click();
+    ptor.findElement(protractor.By.id('beginTest')).click();
+    //ptor.waitForAngular();
+    ptor.findElement(protractor.By.id('q01_D')).click();
+    ptor.findElement(protractor.By.id('q02_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q03_D')).click();
+    ptor.waitForAngular();
+    ptor.sleep(2000);
+    ptor.findElement(protractor.By.id('q04_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(2000);
+    ptor.findElement(protractor.By.id('q05_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(2000);
+    ptor.findElement(protractor.By.id('submitAnswers')).click();
+    expect(ptor.findElement(protractor.By.id('congrats')).getText()).toContain("Congratulations! You've passed with a score of 100%");
+    ptor.findElement(protractor.By.id('checkoutButton')).click();
+  }},
+
+  takeExamFromMyCourses: { value: function(ptor, courseId) {
+    ptor.sleep(2000);
+    ptor.findElement(protractor.By.xpath('/html/body/div/div[2]/div/div/div[2]/article/table/tbody/tr/td[5]/div[3]/a')).click();
+    ptor.sleep(2000);
+    expect(ptor.getCurrentUrl()).toContain(courseId);
+    ptor.findElement(protractor.By.id('q01_D')).click();
+    ptor.findElement(protractor.By.id('q02_C')).click();
+    /*
+     extra waits and sleep seem to be needed for Chrome, otherwise, the last 3 answers aren't selected
+    */
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q03_D')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q04_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q05_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('submitAnswers')).click();
+    expect(ptor.findElement(protractor.By.id('congrats')).getText()).toContain("Congratulations! You've passed with a score of 100%");
+    ptor.findElement(protractor.By.id('myCoursesButton')).click();
+    // looks for the certificate icon
+    expect(ptor.isElementPresent(protractor.By.xpath('/html/body/div/div[2]/div/div/div[2]/article/table/tbody/tr/td[3]/div/a/img'))).toBeTruthy();
+  }},
+
+  takeExamTakeATestLink: { value: function(ptor, domain, courseId) {
+    /*
+     need to add id to course title
+    */
+    // finds the course on the home study page
+    ptor.findElement(protractor.By.id('takeATest')).click();
+    ptor.findElement(protractor.By.id(courseId)).click();
+    ptor.waitForAngular();
+    ptor.findElement(protractor.By.id('q01_D')).click();
+    ptor.findElement(protractor.By.id('q02_C')).click();
+    /*
+     extra waits and sleep seem to be needed for Chrome, otherwise, the last 3 answers aren't selected
+    */
+    ptor.waitForAngular();
+    ptor.sleep(4000);
+    ptor.findElement(protractor.By.id('q03_D')).click();
+    ptor.waitForAngular();
+    ptor.sleep(2000);
+    ptor.findElement(protractor.By.id('q04_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(2000);
+    ptor.findElement(protractor.By.id('q05_C')).click();
+    ptor.waitForAngular();
+    ptor.sleep(2000);
+    ptor.findElement(protractor.By.id('submitAnswers')).click();
+    expect(ptor.findElement(protractor.By.id('congrats')).getText()).toContain("Congratulations! You've passed with a score of 100%");
+    ptor.findElement(protractor.By.id('saveScore')).click();
+  }}
+    
+});
+

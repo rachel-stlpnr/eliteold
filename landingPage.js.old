@@ -1,0 +1,60 @@
+describe('massage homepage', function() {
+  var ptor;
+  var passwd = 'tester123';
+  var email;
+  var time;
+  var courseId = 'MFL02CPI13';
+  var domain = 'http://massage.local.elitecme.com';
+
+  ptor = protractor.getInstance();
+  ptor.driver.get(domain);
+  
+  beforeEach(function () {
+    var date = new Date();
+    time = date.getTime();
+    email = 'testing_'+time+'@elite.com';
+  });
+
+  it('Should validate the landing page drop-down', function() {
+    /*
+    ptor.findElements(protractor.By.css('#statesContainer select option')).query(function (selectedElements, done) {
+                selectedElements.each(function (idx, elm) {
+                    if(elm.value == "")
+                        return;
+                    select('selState.val').option(elm.value);
+                    ptor.findElement(protractor.By.css('select option:nth-child('+elm.value+')')).click();
+                    ptor.findElements(protractor.By.css('#statesContainer a:visible')).click();
+                    ptor.findElements(protractor.By.css("ul.breadcrumb li:nth-child(2) a")).click();
+                    expect(ptor.getCurrentUrl()).toContain('/');
+                });
+                done();
+            });
+     */
+   
+     //var stateOptions = ptor.findElements(protractor.By.css('#statesContainer select option'));
+     var stateOptions = ptor.findElements(protractor.By.css('#statesContainer select option'));
+     stateOptions.then(function(options) {
+       for (var i = 1; i <= options.length; i++) {
+         ptor.findElement(protractor.By.css('#statesContainer select option:nth-child('+i+')')).click();
+         ptor.findElement(protractor.By.id('selStateBtn')).click();
+         //ptor.waitForAngular();
+         ptor.debugger();
+         expect(ptor.getCurrentUrl()).toMatch('\/[A-Z]{2}');
+         ptor.driver.get(domain);
+         //ptor.findElement(protractor.By.css('#statesContainer select option:nth-child('+i+')')).getText().then(function(stateValue) { 
+           //console.log(stateValue);
+         //});
+       }
+     });
+     //for (var i=0;i<stateOptions.length;i++) { 
+       //console.log(stateOptions[i]);
+     //}
+     //console.log(stateOptions);
+/*    
+    ptor.findElements(protractor.By.repeater('sc in myCourses').column('sc.Id')).then(function(arr) { // Or whatever other column is appropriate
+      expect(arr.length).toEqual(1); // or whatever.
+    });
+*/    
+  }, 90000);
+});
+
